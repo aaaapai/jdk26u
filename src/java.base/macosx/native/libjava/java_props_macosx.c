@@ -298,7 +298,6 @@ void setOSNameAndVersion(java_props_t *sprops) {
     }
     sprops->os_version = osVersionCStr;
 }
-#endif
 
 
 static Boolean getProxyInfoForProtocol(CFDictionaryRef inDict, CFStringRef inEnabledKey,
@@ -504,3 +503,4 @@ void setProxyProperties(java_props_t *sProps) {
 
     CFRelease(dict);
 }
+#endif
