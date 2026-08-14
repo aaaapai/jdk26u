@@ -24,6 +24,7 @@
  *
  */
 
+#include "tcg-apple-jit.h"
 #include "asm/macroAssembler.hpp"
 #include "classfile/classLoader.hpp"
 #include "classfile/vmSymbols.hpp"
@@ -517,7 +518,13 @@ int os::extra_bang_size_in_bytes() {
 
 #ifdef __APPLE__
 void os::current_thread_enable_wx(WXMode mode) {
+#ifdef __IOS__
+    if (os::Bsd::isRWXJITAvailable()) {
+    jit_write_protect(exec_enabled);
+  }
+#else
   pthread_jit_write_protect_np(mode == WXExec);
+#endif
 }
 #endif
 
