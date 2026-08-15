@@ -36,6 +36,32 @@
 #include "proc_service.h"
 #include "salibelf.h"
 
+#ifdef __ANDROID__
+#include <stdio.h>
+#include <ctype.h>
+#include <sys/user.h>
+#endif
+#if defined(__ANDROID__) && !defined(PRSTATUS_T_DEFINED)
+#define PRSTATUS_T_DEFINED 1
+typedef struct prstatus {
+    struct elf_siginfo pr_info;
+    short int pr_cursig;
+    unsigned int pr_sigpend;
+    unsigned int pr_sighold;
+    pid_t pr_pid;
+    pid_t pr_ppid;
+    pid_t pr_pgrp;
+    pid_t pr_sid;
+    struct timeval pr_utime;
+    struct timeval pr_stime;
+    struct timeval pr_cutime;
+    struct timeval pr_cstime;
+    elf_gregset_t pr_reg;
+    int pr_fpvalid;
+} prstatus_t;
+
+#endif // __ANDROID__ && !PRSTATUS_T_DEFINED
+
 // This file has the libproc implementation to read core files.
 // For live processes, refer to ps_proc.c. Portions of this is adapted
 // /modelled after Solaris libproc.so (in particular Pcore.c)
