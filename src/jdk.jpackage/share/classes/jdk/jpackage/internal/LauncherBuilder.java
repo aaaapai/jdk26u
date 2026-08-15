@@ -136,6 +136,16 @@ final class LauncherBuilder {
                     throw buildConfigException().message("message.icon-not-icns", icon).create();
                 }
             }
+            case ANDROID -> {
+                if (!icon.getFileName().toString().endsWith(".png")) {
+                    throw buildConfigException().message("message.icon-not-png", icon).create();
+                }
+            }
+            case IOS -> {
+                if (!icon.getFileName().toString().endsWith(".icns")) {
+                    throw buildConfigException().message("message.icon-not-icns", icon).create();
+                }
+            }
             default -> {
                 throw new UnsupportedOperationException();
             }
